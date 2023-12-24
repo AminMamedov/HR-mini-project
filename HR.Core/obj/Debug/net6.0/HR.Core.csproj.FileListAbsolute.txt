@@ -1,0 +1,11 @@
+C:\Users\A055\source\repos\HR\HR.Core\bin\Debug\net6.0\HR.Core.deps.json
+C:\Users\A055\source\repos\HR\HR.Core\bin\Debug\net6.0\HR.Core.dll
+C:\Users\A055\source\repos\HR\HR.Core\bin\Debug\net6.0\HR.Core.pdb
+C:\Users\A055\source\repos\HR\HR.Core\obj\Debug\net6.0\HR.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\A055\source\repos\HR\HR.Core\obj\Debug\net6.0\HR.Core.AssemblyInfoInputs.cache
+C:\Users\A055\source\repos\HR\HR.Core\obj\Debug\net6.0\HR.Core.AssemblyInfo.cs
+C:\Users\A055\source\repos\HR\HR.Core\obj\Debug\net6.0\HR.Core.csproj.CoreCompileInputs.cache
+C:\Users\A055\source\repos\HR\HR.Core\obj\Debug\net6.0\HR.Core.dll
+C:\Users\A055\source\repos\HR\HR.Core\obj\Debug\net6.0\refint\HR.Core.dll
+C:\Users\A055\source\repos\HR\HR.Core\obj\Debug\net6.0\HR.Core.pdb
+C:\Users\A055\source\repos\HR\HR.Core\obj\Debug\net6.0\ref\HR.Core.dll

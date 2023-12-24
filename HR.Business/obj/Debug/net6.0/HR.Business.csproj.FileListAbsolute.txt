@@ -1,0 +1,17 @@
+C:\Users\A055\source\repos\HR\HR.Business\bin\Debug\net6.0\HR.Business.deps.json
+C:\Users\A055\source\repos\HR\HR.Business\bin\Debug\net6.0\HR.Business.dll
+C:\Users\A055\source\repos\HR\HR.Business\bin\Debug\net6.0\HR.Business.pdb
+C:\Users\A055\source\repos\HR\HR.Business\bin\Debug\net6.0\HR.Core.dll
+C:\Users\A055\source\repos\HR\HR.Business\bin\Debug\net6.0\HR.DataAccess.dll
+C:\Users\A055\source\repos\HR\HR.Business\bin\Debug\net6.0\HR.DataAccess.pdb
+C:\Users\A055\source\repos\HR\HR.Business\bin\Debug\net6.0\HR.Core.pdb
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\HR.Business.csproj.AssemblyReference.cache
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\HR.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\HR.Business.AssemblyInfoInputs.cache
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\HR.Business.AssemblyInfo.cs
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\HR.Business.csproj.CoreCompileInputs.cache
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\HR.Business.csproj.CopyComplete
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\HR.Business.dll
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\refint\HR.Business.dll
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\HR.Business.pdb
+C:\Users\A055\source\repos\HR\HR.Business\obj\Debug\net6.0\ref\HR.Business.dll
