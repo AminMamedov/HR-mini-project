@@ -11,6 +11,7 @@ public interface ICompanyServices
     /// <param name="name"></param>
     void Delete(string name, bool isActive = true);
     void GetAllDepartment(string name);
+    void GetCompanyIncluded(string name);
     void ShowAllCompanies();
     
 }

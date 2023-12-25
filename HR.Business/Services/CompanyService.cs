@@ -5,7 +5,7 @@ using HR.DataAccess.Contexts;
 
 namespace HR.Business.Services;
 
-internal class CompanyService : ICompanyServices
+public class CompanyService : ICompanyServices
 {
     public void Create(string? name)
     {
@@ -37,22 +37,37 @@ internal class CompanyService : ICompanyServices
     public void GetAllDepartment(string  name)
     {
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException();
+        Company? dbcompany =
+            HRDbContext.Companies.Find(c => c.Name.ToLower() == name.ToLower());
+        if (dbcompany is null)
+            throw new NotFoundException($"{name} company not found");
+        Console.WriteLine($"id: {dbcompany.Id}\n" +
+                          $"Company name: {dbcompany.Name}\n");
+
+        GetCompanyIncluded(dbcompany.Name);
+
+
+    }
+    public void GetCompanyIncluded(string name)
+    {
         foreach (var department in HRDbContext.Departments)
         {
-            //verilen compani adi olub olmadigini yoxlamaq(exception vermek)
-            //eger company adi vardisa ,verilen company adinin  id'sini 
-            //ve movcud olan butun departmentlerin id'lerini muqaise edib
-            //eyni id'si olanlari gorsedmek(foreach)
+            if (department.Company.Name.ToLower() == name.ToLower())
+            {
+                Console.WriteLine($"Id: {department.Id}; Department name:{department.Name}");
+                Console.WriteLine("------------------------------------------");
+            }
         }
-        
-
     }
 
     public void ShowAllCompanies()
     {
         foreach (var company in HRDbContext.Companies)
         {
-            Console.WriteLine($"id:{company.Id}  name:{company.Name}");
+            if(company.IsActive == true)
+            {
+                Console.WriteLine($"id:{company.Id}  name:{company.Name}");
+            }
         }
     }
 }
