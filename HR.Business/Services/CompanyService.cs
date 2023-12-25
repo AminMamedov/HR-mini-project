@@ -18,23 +18,41 @@ internal class CompanyService : ICompanyServices
         HRDbContext.Companies.Add(company);
     }
 
-    public void Deactivate(string name, bool isActive = true)
+    
+
+    public void Delete(string name, bool isActive = true)
     {
-        throw new NotImplementedException();
+        foreach(var company in HRDbContext.Companies)
+        {
+        if (String.IsNullOrEmpty(name)) throw new ArgumentNullException();
+            if (company.Name.ToLower()== name.ToLower())
+                company.IsActive = false;
+            break;
+        }
+
     }
 
-    public void Delete(string name)
-    {
-        throw new NotImplementedException();
-    }
+    
 
-    public void GetAllDepartment(string name)
+    public void GetAllDepartment(string  name)
     {
-        throw new NotImplementedException();
+        if (String.IsNullOrEmpty(name)) throw new ArgumentNullException();
+        foreach (var department in HRDbContext.Departments)
+        {
+            //verilen compani adi olub olmadigini yoxlamaq(exception vermek)
+            //eger company adi vardisa ,verilen company adinin  id'sini 
+            //ve movcud olan butun departmentlerin id'lerini muqaise edib
+            //eyni id'si olanlari gorsedmek(foreach)
+        }
+        
+
     }
 
     public void ShowAllCompanies()
     {
-        throw new NotImplementedException();
+        foreach (var company in HRDbContext.Companies)
+        {
+            Console.WriteLine($"id:{company.Id}  name:{company.Name}");
+        }
     }
 }
