@@ -16,6 +16,7 @@ public class Department : IEntity
     {
         Id = _id++;
         Name = name;
+        
     }
 
 }
