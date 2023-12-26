@@ -22,13 +22,12 @@ public class CompanyService : ICompanyServices
 
     public void Delete(string name, bool isActive = true)
     {
-        foreach(var company in HRDbContext.Companies)
-        {
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException();
-            if (company.Name.ToLower()== name.ToLower())
-                company.IsActive = false;
-            break;
-        }
+        Company? dbCompany =
+            HRDbContext.Companies.Find(c => c.Name.ToLower() == name.ToLower());
+        if (dbCompany is null)
+            throw new NotFoundException($"{name} Company not found");
+        dbCompany.IsActive = false;
 
     }
 

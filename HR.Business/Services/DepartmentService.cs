@@ -13,57 +13,107 @@ public class DepartmentService : IDepartmentServices
     //{
     //    companyService = new ICompanysService();
     //}
-    public void CreateDepartment(string name, int employeeLimit, int companyId)
+    public void CreateDepartment(string name, int companyId, int employeeLimit)
     {
-        foreach (var company in HRDbContext.Companies)
+        Company? dbCompany =
+                HRDbContext.Companies.Find(c => c.Id == companyId);
+        if (dbCompany is null)
         {
-            if (companyId != company.Id)
+            throw new NotFoundException($"Company with id:{companyId} not exist.");
+        }
+        
+
+
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException();
+        Department? dbDepartment =
+             HRDbContext.Departments.Find(a => a.Name.ToLower() == name.ToLower());
+        if (dbDepartment is not null)
+        {
+
+            if (dbDepartment.Id == companyId)
             {
-                throw new NotFoundException($"Company with id:{companyId} doesn't exist");
+                throw new AlreadyExistException($"IN company with id:{companyId} department with name{name} is already exist");
             }
 
 
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException();
-            Department? dbDepartment =
-                 HRDbContext.Departments.Find(a => a.Name.ToLower() == name.ToLower());
-            if (dbDepartment is not null)
-                throw new AlreadyExistException($"{dbDepartment.Name} already exists.");
-            //maxstudentcount yaratmax ve muqaise etmek
-            //companinin var oldugunun yoxlamaq
-            //eger bir exceptiona yoxdursa yaratmaq
-            Department department = new(name);
-            HRDbContext.Departments.Add(department);
+        }
+        Department department = new(name, employeeLimit);
+        HRDbContext.Departments.Add(department);
+        if (employeeLimit > 6)
+        {
+            throw new CapacityLimitException($"Maximum employee count should be 6");
+        }
+
+        ////////////////////////////////////////if (_dbCompany is not null) throw new AlreadyExistException($")
+
+        //maxstudentcount yaratmax ve muqaise etmek
+        //companinin var oldugunun yoxlamaq
+        //eger bir exceptiona yoxdursa yaratmaq
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public void AddEmployee(Employee employee, int departmentId)
+    {
+        if (employee.Id is null) throw new ArgumentNullException();
+        Employee? dbEmployee =
+            HRDbContext.Employees.Find(a => a.Id == employee.Id);
+        Department? dbDepartment =
+            HRDbContext.Departments.Find(c => c.Id == departmentId);
+        if (dbDepartment is null)
+        {
+            throw new NotFoundException($"Department with id:{departmentId} not found");
+        }
+        if (employee.DepartmentId == departmentId)
+        {
+            throw new AlreadyExistException($" Employee with id:{employee.Id} already exists in department with id:{departmentId}.");
+        }
+        dbDepartment.CurrentEmployeeCount++;
+        if (dbDepartment.CurrentEmployeeCount > dbDepartment.EmployeeLimit)
+        {
+            throw new CapacityLimitException($"Maximum employee count should be {dbDepartment.EmployeeLimit}");
         }
 
 
 
+        employee.DepartmentId = departmentId;
+
+        Employee employee1 = new(employee.Name, employee.DepartmentId);
+
+        HRDbContext.Employees.Add(employee1);
+
+
+
+
+
+
+
 
 
 
 
     }
-    public void AddEmployee(Employee employee, int departmentId)
+    public void GetDepartmentById(int departmentId)
     {
-        if(string.IsNullOrEmpty(employee.Name)) throw new ArgumentNullException();
-        Employee? dbEmployee =
-            HRDbContext.Employees.Find(a => a.Name.ToLower() == employee.Name.ToLower());
-        if (dbEmployee is not null)
-            throw new AlreadyExistException($"{employee.Name} already exists.");
-        //employee.DepartmentId = departmentId; 
-        //Employee employee1 = new(employee.Name,employee.DepartmentId);
-        //HRDbContext.Employees.Add(employee1);
-
-
-
-
-
-
-
-
-
+        foreach (var item in HRDbContext.Departments)
+        {
+            if (item.Id == departmentId)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
     }
 
-    public void UpdateDepartment(string name,string newName, int employeeLimit)
+    public void UpdateDepartment(string name, string newName, int employeeLimit)
     {
         if (string.IsNullOrEmpty(name)) throw new ArgumentNullException();
         Department? dbDepartment =
@@ -71,15 +121,27 @@ public class DepartmentService : IDepartmentServices
         if (dbDepartment is not null)
         {
             dbDepartment.Name = newName;
+            dbDepartment.EmployeeLimit = employeeLimit;
         }
 
 
     }
 
-    public void GetDepartmentEmployees(string name)
+    public void GetDepartmentEmployees(int departmentId)
     {
-        throw new NotImplementedException();
+
+        Department? dbdepartment =
+            HRDbContext.Departments.Find(c => c.Id == departmentId);
+        if (dbdepartment is null)
+            throw new NotFoundException($"company with id:{departmentId}  not found");
+        Console.WriteLine($"id: {dbdepartment.Id}\n" +
+                          $"Company name: {dbdepartment.Name}\n");
+        foreach (var employee in HRDbContext.Employees)
+        {
+            if (employee.Id == departmentId)
+                Console.WriteLine($"Employee id:{employee.Id}  Employee name:{employee.Name}");
+        }
     }
 
-   
+
 }
