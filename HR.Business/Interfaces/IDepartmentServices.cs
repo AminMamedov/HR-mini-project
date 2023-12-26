@@ -10,5 +10,7 @@ namespace HR.Business.Interfaces
         void UpdateDepartment(string name,string newName, int employeeLimit);
         void GetDepartmentEmployees( int departmentId);
          void GetDepartmentById(int departmentId);
+        void DeleteDepartment(int departmentId);
+        void ShowAllDepartments();
     }
 }
