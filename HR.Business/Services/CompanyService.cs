@@ -7,7 +7,13 @@ namespace HR.Business.Services;
 
 public class CompanyService : ICompanyServices
 {
-    public void Create(string? name)
+    private IDepartmentServices _departmentservice;
+    public CompanyService()
+    {
+        _departmentservice = new DepartmentService();
+    }
+   
+    public void Create(string name)
     {
        if(String.IsNullOrEmpty(name)) throw new ArgumentNullException();
        Company? dbCompany =
@@ -20,38 +26,38 @@ public class CompanyService : ICompanyServices
 
     
 
-    public void Delete(string name, bool isActive = true)
+    public void Delete(int? id)
     {
-        if (String.IsNullOrEmpty(name)) throw new ArgumentNullException();
+        if(id is null) throw new ArgumentNullException();
         Company? dbCompany =
-            HRDbContext.Companies.Find(c => c.Name.ToLower() == name.ToLower());
+            HRDbContext.Companies.Find(c => c.Id == id);
         if (dbCompany is null)
-            throw new NotFoundException($"{name} Company not found");
+            throw new NotFoundException($"{id} Company not found");
         dbCompany.IsActive = false;
 
     }
 
     
 
-    public void GetAllDepartment(string  name)
+    public void GetAllDepartment(int?  id)
     {
-        if (String.IsNullOrEmpty(name)) throw new ArgumentNullException();
+        if (id == null) throw new ArgumentNullException();
         Company? dbcompany =
-            HRDbContext.Companies.Find(c => c.Name.ToLower() == name.ToLower());
+            HRDbContext.Companies.Find(c => c.Id == id);
         if (dbcompany is null)
-            throw new NotFoundException($"{name} company not found");
+            throw new NotFoundException($"Company with id :{id} doesn't exist");
         Console.WriteLine($"id: {dbcompany.Id}\n" +
                           $"Company name: {dbcompany.Name}\n");
 
-        GetCompanyIncluded(dbcompany.Name);
+        GetCompanyIncluded(dbcompany.Id);
 
 
     }
-    public void GetCompanyIncluded(string name)
+    public void GetCompanyIncluded(int? id)
     {
         foreach (var department in HRDbContext.Departments)
         {
-            if (department.Company.Name.ToLower() == name.ToLower())
+            if (department.Company.Id == id)
             {
                 Console.WriteLine($"Id: {department.Id}; Department name:{department.Name}");
                 Console.WriteLine("------------------------------------------");

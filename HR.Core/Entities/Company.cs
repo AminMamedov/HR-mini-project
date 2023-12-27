@@ -6,7 +6,7 @@ public class Company :IEntity
 
 {
     public int ?Id {  get;  }
-    public bool IsActive {  get; set; }
+    public bool IsActive { get; set; } = true;
     public string Name { get; set; }
     private static int _id;
     public Company(string name )
