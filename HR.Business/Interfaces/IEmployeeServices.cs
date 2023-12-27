@@ -7,6 +7,9 @@ namespace HR.Business.Interfaces
     {
         void CreateEmployee(string name, string surname, int salary,Department? departmentId);
         void DeleteEmployee(string employeeId);
+        void ShowAllEmployees();
+        void ChangeDepartment(int employeeId,int newdepartmentId);
+
 
 
 

@@ -8,7 +8,7 @@ namespace HR.Business.Services;
 
 public class DepartmentService : IDepartmentServices
 {
-    
+
     public void CreateDepartment(string name, int companyId, int employeeLimit)
     {
         Company? dbCompany =
@@ -35,7 +35,7 @@ public class DepartmentService : IDepartmentServices
             throw new CapacityLimitException($"Maximum employee count should be 6");
         }
 
-        
+
     }
     public void AddEmployee(Employee employee, int departmentId)
     {
@@ -84,6 +84,7 @@ public class DepartmentService : IDepartmentServices
              HRDbContext.Departments.Find(a => a.Name.ToLower() == name.ToLower());
         if (dbDepartment is not null)
         {
+            if (employeeLimit < dbDepartment.CurrentEmployeeCount) throw new CouldNotUptadeDepartment($"Youe EmployeeLimit is less than Current count of Employee,set EmployeeLimit more than{dbDepartment.CurrentEmployeeCount}");
             dbDepartment.Name = newName;
             dbDepartment.EmployeeLimit = employeeLimit;
         }
@@ -111,14 +112,22 @@ public class DepartmentService : IDepartmentServices
         if (dbdepartment is null) throw new NotFiniteNumberException($" Department with ID:{departmentId} doesn't exist");
         dbdepartment.isActive = false;
         Console.WriteLine($"Department with ID: {departmentId} was deleted.");
+        foreach(var employee in HRDbContext.Employees)
+        {
+            ///////////////////////////////////////////////////////////////////////////////////
+            if (employee.Id ==departmentId)
+            {
+                HRDbContext.Employees.Remove(employee);
+            }
+        }
     }
     public void ShowAllDepartments()
     {
-        foreach(var department  in HRDbContext.Departments)
+        foreach (var department in HRDbContext.Departments)
         {
-            if(department.isActive = true)
+            if (department.isActive = true)
             {
-                Console.WriteLine( $"Department ID:{department.Id}   Department Name:{department.Name}");
+                Console.WriteLine($"Department ID:{department.Id}   Department Name:{department.Name}");
             }
         }
     }

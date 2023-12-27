@@ -10,20 +10,20 @@ public class Employee :IEntity
     public int Salary { get; set; }
     public bool IsActive {  get; set; }=true;
     public int? DepartmentId { get; set; } = null;
+    public int CompanyId {  get; set; }
     private static int _id;
-    public Employee(string name,string surname,int salary,int departmentId)
+    public Employee(string name,string surname,int salary)
     {
         Id = _id++;
         Name = name;
         Salary = salary;
         Surname = surname;
-        DepartmentId=departmentId;
         
     }
 
     public Employee(string name, int? departmentId)
     {
         Name = name;
-        DepartmentId = departmentId;
+        
     }
 }
