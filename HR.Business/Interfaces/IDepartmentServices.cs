@@ -5,7 +5,7 @@ namespace HR.Business.Interfaces
 {
     public  interface IDepartmentServices
     {
-        void CreateDepartment(string name, int? employeeLimit,int? companyId); 
+        void CreateDepartment(string name, int? companyId, int? employeeLimit); 
         void AddEmployee(Employee employee,int departmentId);
         void UpdateDepartment(int? departmentId,string newName, int? employeeLimit);
         void GetDepartmentEmployees( int? departmentId);

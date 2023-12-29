@@ -10,14 +10,15 @@ public class Department : IEntity
     public Company Company { get; set; }
     public int? EmployeeLimit { get; set; }
     public int CurrentEmployeeCount { get; set; } = 0;
-    public int CompanyId { get; set; }
+    public int? CompanyId { get; set; }
     public bool isActive { get; set; } = true;
     private static int _id;
-    public Department(string name,int? employeelimit)
+    public Department(string name, int? companyId ,int? employeelimit)
     {
         Id = _id++;
         Name = name;
         EmployeeLimit = employeelimit;
+        CompanyId = companyId;
         
     }
 

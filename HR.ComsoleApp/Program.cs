@@ -31,15 +31,17 @@ while (isContinue)
                       "6 - Show All Departments \n" +
                       "7 - Delete Department \n" +
                       "8 - Get Department's Employee \n" +
-                      "9 - Add Employee \n" +
+                      "9 - Get Department by ID \n"+
+                      "10 - Update Department \n" +
+                      "11 - Add Employee \n" +
 
 
                       "-- Employee--\n" +
-                      "10 - Create Employee \n" +
+                      "12 - Create Employee \n" +
                       
-                      "11 - Show All Employee \n" +
-                      "12 - Change Employee's Department \n "+
-                      " 13 - Delete Employee \n "+
+                      "13 - Show All Employee \n" +
+                      "14 - Change Employee's Department \n "+
+                      "15 - Delete Employee \n "+
                       "0 - Quit \n"+
                      "----------------------------------");
     string? option = Console.ReadLine();
@@ -103,7 +105,7 @@ while (isContinue)
                     {
                         Console.WriteLine(  "Enter Company id:");
                         int id = Convert.ToInt32(Console.ReadLine());
-                        companyService.GetCompanyIncluded(id);
+                        companyService.GetCompanyDepartments(id);
                     }
                     catch (Exception ex)
                     {
@@ -290,7 +292,42 @@ while (isContinue)
 
                     }
                     break;
-                
+                case (int)Menu.ChangeEmployeeDepartment:
+                    try
+                    {
+                        Console.WriteLine(  "Enter Employee ID :");
+                        int employeeId = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine(  "Enter New Department ID :");
+                        int newDepartmentId = Convert.ToInt32(Console.ReadLine());
+                        employeeService.ChangeEmployeeDepartment(employeeId, newDepartmentId);  
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.ChangeEmployeeDepartment;
+                    }
+                    break;
+                case (int)Menu.DeleteEmployee:
+                    try
+                    {
+                        Console.WriteLine(  "Enter Employee ID :");
+                        int employeeId = Convert.ToInt32(Console.ReadLine());
+                        employeeService.DeleteEmployee(employeeId);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.DeleteEmployee;
+
+                    }
+                    break;
             }
         }
     }

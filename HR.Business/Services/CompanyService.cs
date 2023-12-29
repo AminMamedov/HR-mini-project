@@ -41,31 +41,47 @@ public class CompanyService : ICompanyServices
 
     
 
-    public void GetAllDepartment(int?  id)
+    public void GetCompanyDepartments(int?  id)
     {
         if (id == null) throw new ArgumentNullException();
         Company? dbcompany =
             HRDbContext.Companies.Find(c => c.Id == id);
         if (dbcompany is null)
             throw new NotFoundException($"Company with id :{id} doesn't exist");
-        Console.WriteLine($"id: {dbcompany.Id}\n" +
-                          $"Company name: {dbcompany.Name}\n");
+        //Console.WriteLine($"id: {dbcompany.Id}\n" +
+        //                  $"Company name: {dbcompany.Name}\n");
 
-        GetCompanyIncluded(dbcompany.Id);
-
-
-    }
-    public void GetCompanyIncluded(int? id)
-    {
+        //GetCompanyIncluded(id);
         foreach (var department in HRDbContext.Departments)
         {
-            if (department.CompanyId == id)
+            if (department.isActive == true)
             {
-                Console.WriteLine($"Id: {department.Id}; Department name:{department.Name}");
-                Console.WriteLine("------------------------------------------");
+                if (department.CompanyId == dbcompany.Id)
+                {
+                    Console.WriteLine($"Id: {department.Id}; Department name:{department.Name}");
+                    Console.WriteLine("------------------------------------------");
+                }
+
             }
         }
+
+
     }
+    //public void GetCompanyIncluded(int? id)
+    //{
+    //    foreach (var department in HRDbContext.Departments)
+    //    {
+    //        if(department.isActive == true)
+    //        {
+    //        if (department.CompanyId == id)
+    //        {
+    //            Console.WriteLine($"Id: {department.Id}; Department name:{department.Name}");
+    //            Console.WriteLine("------------------------------------------");
+    //        }
+
+    //        }
+    //    }
+    //}
 
     public void ShowAllCompanies()
     {

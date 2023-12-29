@@ -31,12 +31,16 @@ public class DepartmentService : IDepartmentServices
                 throw new AlreadyExistException($"IN company with id:{companyId} department with name{name} is already exist");
             }
         }
-        Department department = new(name, employeeLimit);
-        HRDbContext.Departments.Add(department);
         if (employeeLimit > 6)
         {
             throw new CapacityLimitException($"Maximum employee count should be 6");
         }
+        //    dbDepartment.CompanyId = companyId;
+        //dbDepartment.EmployeeLimit = employeeLimit;
+        //dbDepartment.Name = name;
+        Department department = new(name,companyId, employeeLimit);
+        HRDbContext.Departments.Add(department);
+        department.isActive = true;
 
 
     }
