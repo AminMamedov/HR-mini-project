@@ -187,6 +187,42 @@ while (isContinue)
 
                     }
                     break;
+                case (int)Menu.GetDepartmentById:
+                    try
+                    {
+                        Console.WriteLine(  "Enter Department ID :");
+                        int departmentId = Convert.ToInt32(Console.ReadLine()) ;
+                        departmentService.GetDepartmentById(departmentId);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.GetDepartmentById;
+
+                    }
+                    break;
+                case (int)Menu.UpdateDepartment:
+                    try
+                    {
+                        Console.WriteLine(  "Enter Department Id :");
+                        int departmentId = Convert.ToInt32(Console.ReadLine()) ;
+                        Console.WriteLine(  "Enter Department's new name :");
+                        string newName = Console.ReadLine();
+                        Console.WriteLine(  "Enter Department's new employee limit :");
+                        int newEmployeeLimit = Convert.ToInt32(Console.ReadLine());
+                        departmentService.UpdateDepartment(departmentId, newName, newEmployeeLimit);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.UpdateDepartment;
+
+                    }
+                    break;
                 case (int)Menu.AddEmployee:
                     try
                     {
@@ -215,19 +251,19 @@ while (isContinue)
                 case (int)Menu.CreateEmployee:
                     try
                     {
-                        Console.WriteLine(  "Enter Employee name :");
+                        Console.WriteLine("Enter Employee name :");
                         string name = Console.ReadLine();
-                        Console.WriteLine(  "Enter Employee surname :");
+                        Console.WriteLine("Enter Employee surname :");
                         string surname = Console.ReadLine();
-                        Console.WriteLine(  "Enter Employee salary :");
-                        int salary = Convert.ToInt32(Console.ReadLine());   
-                        Console.WriteLine(  "Enter Employee department Id :");
+                        Console.WriteLine("Enter Employee salary :");
+                        int salary = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter Employee department Id :");
                         int departmentId = Convert.ToInt32(Console.ReadLine());
                         employeeService.CreateEmployee(name, surname, salary, departmentId);
                         Console.WriteLine("----------------------");
                         Console.WriteLine("Employee was successfully created");
                         Console.WriteLine("----------------------");
-                        
+
 
 
                     }
@@ -254,6 +290,7 @@ while (isContinue)
 
                     }
                     break;
+                
             }
         }
     }

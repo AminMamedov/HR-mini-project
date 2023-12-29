@@ -10,6 +10,8 @@ public enum Menu
     ShowAllDepartments,
     DeleteDepartment,
     GetDepartmentsEmployees,
+    GetDepartmentById,
+    UpdateDepartment,
     AddEmployee,
     CreateEmployee,
     ShowAllEmployee,

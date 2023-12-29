@@ -36,7 +36,7 @@ public class EmployeeService : IEmployeeServices
         //}
 
     }
-    public void ChangeDepartment(int employeeId, int newdepartmentId)
+    public void ChangeEmployeeDepartment(int employeeId, int newdepartmentId)
     {
         Employee? dbEmployee =
             HRDbContext.Employees.Find(c=>c.Id == employeeId);

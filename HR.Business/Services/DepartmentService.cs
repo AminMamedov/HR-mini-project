@@ -69,8 +69,9 @@ public class DepartmentService : IDepartmentServices
 
         HRDbContext.Employees.Add(employee);
     }
-    public void GetDepartmentById(int departmentId)
+    public void GetDepartmentById(int? departmentId)
     {
+        if (departmentId is null) throw new ArgumentNullException();
         Department? dbDepartment =
             HRDbContext.Departments.Find(c => c.Id == departmentId);
 
@@ -83,16 +84,18 @@ public class DepartmentService : IDepartmentServices
             }
         }
     }
-    public void UpdateDepartment(string name, string newName, int employeeLimit)
+    public void UpdateDepartment(int? departmentId, string newName, int? newemployeeLimit)
     {
-        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException();
+        if (departmentId is null) throw new ArgumentNullException();
+        if (string.IsNullOrEmpty(newName)) throw new ArgumentNullException();
+        if (newemployeeLimit is null) throw new ArgumentNullException();
         Department? dbDepartment =
-             HRDbContext.Departments.Find(a => a.Name.ToLower() == name.ToLower());
+             HRDbContext.Departments.Find(a => a.Id == departmentId);
         if (dbDepartment is not null)
         {
-            if (employeeLimit < dbDepartment.CurrentEmployeeCount) throw new CouldNotUptadeDepartment($"Youe EmployeeLimit is less than Current count of Employee,set EmployeeLimit more than{dbDepartment.CurrentEmployeeCount}");
+            if (newemployeeLimit < dbDepartment.CurrentEmployeeCount) throw new CouldNotUptadeDepartment($"Youe EmployeeLimit is less than Current count of Employee,set EmployeeLimit more than{dbDepartment.CurrentEmployeeCount}");
             dbDepartment.Name = newName;
-            dbDepartment.EmployeeLimit = employeeLimit;
+            dbDepartment.EmployeeLimit = newemployeeLimit;
         }
     }
     public void GetDepartmentEmployees(int? departmentId)
@@ -112,7 +115,7 @@ public class DepartmentService : IDepartmentServices
                 if (employee.IsActive == true)
                 {
                     if (employee.DepartmentId == departmentId)
-                        Console.WriteLine($"Employee id:{employee.Id}  Employee name:{employee.Name}");
+                        Console.WriteLine($"Employee id:{employee.Id}  Employee name:{employee.Name}  Employee surname : {employee.Surname}  Employee salary : {employee.Salary}");
 
                 }
             }

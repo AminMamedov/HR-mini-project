@@ -9,7 +9,7 @@ namespace HR.Business.Interfaces
         
         void DeleteEmployee(int employeeId);
         void ShowAllEmployees();
-        void ChangeDepartment(int employeeId,int newdepartmentId);
+        void ChangeEmployeeDepartment(int employeeId,int newdepartmentId);
 
 
 

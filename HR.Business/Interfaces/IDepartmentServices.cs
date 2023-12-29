@@ -7,9 +7,9 @@ namespace HR.Business.Interfaces
     {
         void CreateDepartment(string name, int? employeeLimit,int? companyId); 
         void AddEmployee(Employee employee,int departmentId);
-        void UpdateDepartment(string name,string newName, int employeeLimit);
+        void UpdateDepartment(int? departmentId,string newName, int? employeeLimit);
         void GetDepartmentEmployees( int? departmentId);
-         void GetDepartmentById(int departmentId);
+         void GetDepartmentById(int? departmentId);
         void DeleteDepartment(int departmentId);
         void ShowAllDepartments();
     }
