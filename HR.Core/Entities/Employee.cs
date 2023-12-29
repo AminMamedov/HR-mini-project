@@ -12,12 +12,13 @@ public class Employee :IEntity
     public int? DepartmentId { get; set; } = null;
     public int CompanyId {  get; set; }
     private static int _id;
-    public Employee(string name,string surname,int salary)
+    public Employee(string name,string surname,int salary,int? departmentId)
     {
         Id = _id++;
         Name = name;
         Salary = salary;
         Surname = surname;
+        DepartmentId = departmentId;
         
     }
 

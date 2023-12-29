@@ -1,5 +1,6 @@
 ﻿using HR.Business.Services;
 using HR.Business.Utilities.Helpers;
+using HR.Core.Entities;
 
 Console.WriteLine("HR project start");
 CompanyService companyService = new();
@@ -29,15 +30,17 @@ while (isContinue)
                       "5 - Create Department \n" +
                       "6 - Show All Departments \n" +
                       "7 - Delete Department \n" +
-                      "8 - Get Department's Student \n" +
+                      "8 - Get Department's Employee \n" +
+                      "9 - Add Employee \n" +
 
 
                       "-- Employee--\n" +
-                      "9 - Create Employee \n" +
-                      "10 - Show All Employee \n" +
-                      "11 - Change Employee's Department \n " +
-                     "12 - Delete Employee \n " +
-                     "0 - Quit \n"+
+                      "10 - Create Employee \n" +
+                      
+                      "11 - Show All Employee \n" +
+                      "12 - Change Employee's Department \n "+
+                      " 13 - Delete Employee \n "+
+                      "0 - Quit \n"+
                      "----------------------------------");
     string? option = Console.ReadLine();
     int optionNumber;
@@ -100,11 +103,154 @@ while (isContinue)
                     {
                         Console.WriteLine(  "Enter Company id:");
                         int id = Convert.ToInt32(Console.ReadLine());
+                        companyService.GetCompanyIncluded(id);
                     }
                     catch (Exception ex)
                     {
+                        Console.WriteLine("----------------------");
                         Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
                         goto case (int)Menu.GetCompanyDemaprtments;
+                    }
+                    break;
+                case (int)Menu.CreateDepartment:
+                    try
+                    {
+                        Console.WriteLine("Enter Department name :");
+                        string? name = Console.ReadLine();
+                        Console.WriteLine("Enter Company ID : ");
+                        int companyId = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter Employee Limit :");
+                        int employeeLimit = Convert.ToInt32(Console.ReadLine());
+                        departmentService.CreateDepartment(name, companyId, employeeLimit);
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine("Department was successfully created");
+                        Console.WriteLine("----------------------");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.CreateDepartment;
+
+                    }
+                    break;
+                case (int)Menu.ShowAllDepartments:
+                    try
+                    {
+                        departmentService.ShowAllDepartments();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.ShowAllDepartments;
+
+                    }
+                    break;
+                case (int)Menu.DeleteDepartment:
+                    try
+                    {
+                        Console.WriteLine(  "Enter Department ID :");
+                        int departmentId = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine("Department was successfully deleted");
+                        Console.WriteLine("----------------------");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.DeleteDepartment;
+
+                    }
+                    break;
+                case (int)Menu.GetDepartmentsEmployees:
+                    try
+                    {
+                        Console.WriteLine("Enter Department ID :");
+                        int departmentId = Convert.ToInt32(Console.ReadLine());
+                        departmentService.GetDepartmentEmployees(departmentId);
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.GetDepartmentsEmployees;
+
+                    }
+                    break;
+                case (int)Menu.AddEmployee:
+                    try
+                    {
+                        Console.WriteLine("Enter Employee name :");
+                        string name = Console.ReadLine();
+                        Console.WriteLine("Enter Employee surname :");
+                        string surname = Console.ReadLine();
+                        Console.WriteLine("Enter Employee salary :");
+                        int salary = Convert.ToInt32(Console.ReadLine());
+                        
+                        Console.WriteLine(" Enter department id :");
+                        int departmentId = Convert.ToInt32(Console.ReadLine());
+
+                        Employee employee = new(name ,surname,salary,departmentId);
+                        departmentService.AddEmployee(employee, departmentId);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.AddEmployee;
+
+                    }
+                    break;
+                case (int)Menu.CreateEmployee:
+                    try
+                    {
+                        Console.WriteLine(  "Enter Employee name :");
+                        string name = Console.ReadLine();
+                        Console.WriteLine(  "Enter Employee surname :");
+                        string surname = Console.ReadLine();
+                        Console.WriteLine(  "Enter Employee salary :");
+                        int salary = Convert.ToInt32(Console.ReadLine());   
+                        Console.WriteLine(  "Enter Employee department Id :");
+                        int departmentId = Convert.ToInt32(Console.ReadLine());
+                        employeeService.CreateEmployee(name, surname, salary, departmentId);
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine("Employee was successfully created");
+                        Console.WriteLine("----------------------");
+                        
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.CreateEmployee;
+
+                    }
+                    break;
+                case (int)Menu.ShowAllEmployee:
+                    try
+                    {
+                        employeeService.ShowAllEmployees();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("----------------------");
+                        goto case (int)Menu.ShowAllEmployee;
 
                     }
                     break;

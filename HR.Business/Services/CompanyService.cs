@@ -16,10 +16,12 @@ public class CompanyService : ICompanyServices
     public void Create(string name)
     {
        if(String.IsNullOrEmpty(name)) throw new ArgumentNullException();
+       
        Company? dbCompany =
             HRDbContext.Companies.Find(c=>c.Name.ToLower()== name.ToLower());
-        if (dbCompany is not null)
+        if (dbCompany is not null && dbCompany.IsActive == true)
             throw new AlreadyExistException($"{dbCompany.Name} is already exist");
+        
         Company company = new(name);
         HRDbContext.Companies.Add(company);
     }
@@ -57,7 +59,7 @@ public class CompanyService : ICompanyServices
     {
         foreach (var department in HRDbContext.Departments)
         {
-            if (department.Company.Id == id)
+            if (department.CompanyId == id)
             {
                 Console.WriteLine($"Id: {department.Id}; Department name:{department.Name}");
                 Console.WriteLine("------------------------------------------");

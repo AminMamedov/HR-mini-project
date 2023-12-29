@@ -9,15 +9,18 @@ namespace HR.Business.Services;
 public class DepartmentService : IDepartmentServices
 {
 
-    public void CreateDepartment(string name, int companyId, int employeeLimit)
+    public void CreateDepartment(string name, int? companyId, int? employeeLimit)
     {
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException();
+        if (companyId is null) throw new ArgumentNullException();
+        if (employeeLimit is null) throw new ArgumentNullException();
+
         Company? dbCompany =
                 HRDbContext.Companies.Find(c => c.Id == companyId);
         if (dbCompany is null)
         {
             throw new NotFoundException($"Company with id:{companyId} not exist.");
         }
-        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException();
         Department? dbDepartment =
              HRDbContext.Departments.Find(a => a.Name.ToLower() == name.ToLower());
         if (dbDepartment is not null)
@@ -48,20 +51,23 @@ public class DepartmentService : IDepartmentServices
         {
             throw new NotFoundException($"Department with id:{departmentId} not found");
         }
-        if (employee.DepartmentId == departmentId)
-        {
-            throw new AlreadyExistException($" Employee with id:{employee.Id} already exists in department with id:{departmentId}.");
-        }
+        //if (employee.DepartmentId == departmentId)
+        //{
+        //    throw new AlreadyExistException($" Employee with id:{employee.Id} already exists in department with id:{departmentId}.");
+        //}
         dbDepartment.CurrentEmployeeCount++;
+        employee.IsActive= true;    
         if (dbDepartment.CurrentEmployeeCount > dbDepartment.EmployeeLimit)
         {
             throw new CapacityLimitException($"Maximum employee count should be {dbDepartment.EmployeeLimit}");
         }
+        
         employee.DepartmentId = departmentId;
+        
 
-        Employee employee1 = new(employee.Name, employee.DepartmentId);
+        
 
-        HRDbContext.Employees.Add(employee1);
+        HRDbContext.Employees.Add(employee);
     }
     public void GetDepartmentById(int departmentId)
     {
@@ -89,19 +95,28 @@ public class DepartmentService : IDepartmentServices
             dbDepartment.EmployeeLimit = employeeLimit;
         }
     }
-    public void GetDepartmentEmployees(int departmentId)
+    public void GetDepartmentEmployees(int? departmentId)
     {
+        if (departmentId is null) throw new ArgumentNullException();
 
         Department? dbdepartment =
             HRDbContext.Departments.Find(c => c.Id == departmentId);
         if (dbdepartment is null)
             throw new NotFoundException($"company with id:{departmentId}  not found");
-        Console.WriteLine($"id: {dbdepartment.Id}\n" +
-                          $"Company name: {dbdepartment.Name}\n");
-        foreach (var employee in HRDbContext.Employees)
+        //Console.WriteLine($"id: {dbdepartment.Id}\n" +
+        //                  $"Company name: {dbdepartment.Name}\n");
+        if (dbdepartment.isActive == true)
         {
-            if (employee.Id == departmentId)
-                Console.WriteLine($"Employee id:{employee.Id}  Employee name:{employee.Name}");
+            foreach (var employee in HRDbContext.Employees)
+            {
+                if (employee.IsActive == true)
+                {
+                    if (employee.DepartmentId == departmentId)
+                        Console.WriteLine($"Employee id:{employee.Id}  Employee name:{employee.Name}");
+
+                }
+            }
+
         }
     }
 
@@ -111,11 +126,10 @@ public class DepartmentService : IDepartmentServices
             HRDbContext.Departments.Find(c => c.Id == departmentId);
         if (dbdepartment is null) throw new NotFiniteNumberException($" Department with ID:{departmentId} doesn't exist");
         dbdepartment.isActive = false;
-        Console.WriteLine($"Department with ID: {departmentId} was deleted.");
-        foreach(var employee in HRDbContext.Employees)
+        foreach (var employee in HRDbContext.Employees)
         {
             ///////////////////////////////////////////////////////////////////////////////////
-            if (employee.Id ==departmentId)
+            if (employee.Id == departmentId)
             {
                 HRDbContext.Employees.Remove(employee);
             }
@@ -125,7 +139,7 @@ public class DepartmentService : IDepartmentServices
     {
         foreach (var department in HRDbContext.Departments)
         {
-            if (department.isActive = true)
+            if (department.isActive == true)
             {
                 Console.WriteLine($"Department ID:{department.Id}   Department Name:{department.Name}");
             }

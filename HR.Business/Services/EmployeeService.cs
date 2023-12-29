@@ -16,13 +16,17 @@ public class EmployeeService : IEmployeeServices
             Department? dbdepartment =
             HRDbContext.Departments.Find(c =>c.Id == departmentId);
         if (dbdepartment is null) throw new NotFoundException($"Department with id;{departmentId} doesn't exist");
-        Employee employee = new(name, surname,salary);
         if (dbdepartment.CurrentEmployeeCount > dbdepartment.EmployeeLimit)
         {
             throw new CapacityLimitException($"Maximum employee count should be {dbdepartment.EmployeeLimit}");
         }
+        Employee employee = new(name, surname,salary,departmentId);
         employee.CompanyId = dbdepartment.CompanyId;
+        employee.Name = name;
+        employee.Surname = surname;
         dbdepartment.CurrentEmployeeCount++;
+        employee.Salary =  salary;
+        employee.DepartmentId = departmentId;
        HRDbContext.Employees.Add( employee );
 
         //if (dbdepartment is not null )
