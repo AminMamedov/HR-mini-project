@@ -5,11 +5,15 @@ namespace HR.Business.Interfaces
 {
     public  interface IEmployeeServices
     {
-        void CreateEmployee(string name, string surname, int salary, int departmentId);
+        void CreateEmployee(string name, string surname, int? salary, int? departmentId);
         
-        void DeleteEmployee(int employeeId);
+        void DeactivateEmployee(int? employeeId);
         void ShowAllEmployees();
-        void ChangeEmployeeDepartment(int employeeId,int newdepartmentId);
+        void ChangeEmployeeDepartment(int? employeeId,int? newdepartmentId);
+        bool IsEmployeeExist(bool isActive);
+        void ActivateEmployee(int? employeeId);
+        void DeleteEmployee(int? employeeId);
+        void ShowDeactiveEmployee();
 
 
 

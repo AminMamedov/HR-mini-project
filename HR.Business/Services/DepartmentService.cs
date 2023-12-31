@@ -21,6 +21,10 @@ public class DepartmentService : IDepartmentServices
         {
             throw new NotFoundException($"Company with id:{companyId} not exist.");
         }
+        if(dbCompany.IsActive == false)
+        {
+            throw new NotFoundException($"The company with id : {companyId} doesn't exist.");
+        }
         Department? dbDepartment =
              HRDbContext.Departments.Find(a => a.Name.ToLower() == name.ToLower());
         if (dbDepartment is not null)
@@ -47,6 +51,10 @@ public class DepartmentService : IDepartmentServices
     public void AddEmployee(Employee employee, int departmentId)
     {
         if (employee.Id is null) throw new ArgumentNullException();
+        if(string.IsNullOrEmpty(employee.Name)) throw new ArgumentNullException();
+        if(string.IsNullOrEmpty(employee.Surname)) throw new ArgumentNullException();
+        if(employee.Salary is null) throw new ArgumentNullException();
+        if (employee.DepartmentId is null)  throw new ArgumentNullException(); 
         Employee? dbEmployee =
             HRDbContext.Employees.Find(a => a.Id == employee.Id);
         Department? dbDepartment =
@@ -82,9 +90,13 @@ public class DepartmentService : IDepartmentServices
         if (dbDepartment is null) throw new NotFoundException($"Department with id:{departmentId} doesn't exict");
         foreach (var item in HRDbContext.Departments)
         {
-            if (item.Id == departmentId)
+            if (item.Id == departmentId && item.isActive == true)
             {
                 Console.WriteLine($" Department id:{item.Id}   Department name:{item.Name}  ");
+            }
+            else
+            {
+                throw new NotFoundException($"Department with id : {departmentId} doesn't exist.");
             }
         }
     }
@@ -127,8 +139,9 @@ public class DepartmentService : IDepartmentServices
         }
     }
 
-    public void DeleteDepartment(int departmentId)
+    public void DeactiveDepartment(int? departmentId)
     {
+        if (departmentId is null) throw new ArgumentNullException();
         Department? dbdepartment =
             HRDbContext.Departments.Find(c => c.Id == departmentId);
         if (dbdepartment is null) throw new NotFiniteNumberException($" Department with ID:{departmentId} doesn't exist");
@@ -138,7 +151,7 @@ public class DepartmentService : IDepartmentServices
             ///////////////////////////////////////////////////////////////////////////////////
             if (employee.Id == departmentId)
             {
-                HRDbContext.Employees.Remove(employee);
+                employee.IsActive = false;
             }
         }
     }
@@ -148,9 +161,71 @@ public class DepartmentService : IDepartmentServices
         {
             if (department.isActive == true)
             {
-                Console.WriteLine($"Department ID:{department.Id}   Department Name:{department.Name}");
+                Console.WriteLine($"Department ID:{department.Id} | Department Name:{department.Name}");
             }
         }
+    }
+    public bool IsDepartmentExist( bool isAcive)
+    {
+        foreach (var department in HRDbContext.Departments)
+        {
+            if (department is not null && department.isActive == isAcive) return true;
+        }
+        return false;
+    }
+    public void ActivateDepartment(int? departmentId, int? newCompanyId)
+    {
+        if (departmentId is null) throw new ArgumentNullException();
+        Department? dbdepartment =
+            HRDbContext.Departments.Find(c => c.Id == departmentId);
+        if (dbdepartment is null) throw new NotFiniteNumberException($" Department with ID:{departmentId} doesn't exist");
+        dbdepartment.isActive = true;
+        dbdepartment.CompanyId = newCompanyId;
+        foreach (var employee in HRDbContext.Employees)
+        {
+            ///////////////////////////////////////////////////////////////////////////////////
+            if (employee.Id == departmentId)
+            {
+                employee.IsActive = true;
+                employee.CompanyId = newCompanyId;
+            }
+        }
+    }
+    public void ShowDeactiveDepartment()
+    {
+        foreach (var department in HRDbContext.Departments)
+        {
+            if (IsDepartmentExist(false) == true)
+            {
+                if (department is null) { throw new NotFoundException(" There isn't any deactive department"); }
+
+                Console.WriteLine($" Department ID :{department.Id} | Department Name : {department.Name}");
+            }
+            else
+            {
+                throw new NotFoundException("There isn't any deactive department");
+            }
+        }
+    }
+    public void DeleteDepartment(int? id)
+    {
+        if (id is null) { throw new ArgumentNullException(); }
+        Department? department =
+            HRDbContext.Departments.Find(c => c.Id == id);
+        if (department is null) { throw new NotFoundException($"The department with id :{id} doesn't exist"); }
+        if(department.isActive == false) 
+        {
+        
+        HRDbContext.Departments.Remove(department);
+        }
+        
+        //foreach (var employee in HRDbContext.Employees)
+        //{
+        //    if (employee.IsActive == false)
+        //    {
+        //        HRDbContext.Employees.Remove(employee);
+        //    }
+        //}
     }
 }
 

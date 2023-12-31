@@ -9,9 +9,13 @@ public interface ICompanyServices
     /// If company is empty
     /// </summary>
     /// <param name="name"></param>
-    void Delete(int? id);
+    void Deactivate(int? id);
+    void Activate(int? id);
     void GetCompanyDepartments(int? id);
     //void GetCompanyIncluded(int? id);
     void ShowAllCompanies();
+    void ShowDeactiveCompanies();
+    bool IsCompanyExist(bool isAcive);
+    void DeleteCompany(int? id);
     
 }
